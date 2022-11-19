@@ -91,7 +91,6 @@ enum shutterSpeed : CustomStringConvertible{
 
 
 
-
 class Common {
   
     public var currrentSetting: InputSettings
@@ -100,7 +99,7 @@ class Common {
         
         //Default settings
         
-        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.daylight)
+        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.daylight)
         
         
     }

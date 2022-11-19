@@ -12,97 +12,171 @@ struct AddPatternView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     @StateObject private var settings = SettingsViewModel()
-
+    @State private var startMeasurement = false
        
     private var options1: [String] = [measureAmbient.none.description, measureAmbient.beginning.description, measureAmbient.continuous.description]
      
-     @State private var selectedOption1 = ""
+     @State private var selectedOption1 = measureAmbient.none.description
     @State private var selected_value = "0"
     
     @State private var disabledSegment: Bool = false
+    @State private var showProgreeView = false
+    @State private var timerCounter = 0.0
+  
     
-  
-  
+    
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
 
     
     var body: some View {
+        ZStack {
         
-        VStack{
-            
             VStack{
-            Header1(text: "Setting for this measurment")
                 
-                Divider()
-                
-                Header2(text: "Measure Ambient")
-                
-                HStack {
-                    Spacer().onAppear{
+                VStack{
+                    Header1(text: "Setting for this measurment")
+                    
+                    Divider()
+                    
+                    Header2(text: "Measure Ambient").onAppear{
+                        self.selectedOption1 =  measureAmbient.none.description
                     }
                     
-                    SegmentedButton(selectedItem: $selectedOption1, isDisabled: $disabledSegment, items: options1){}
-                      .padding(.leading, 20).padding(.trailing, 20)
-                    Spacer()
-                }
+                    HStack {
+                        Spacer().onAppear{
+                        }
+                        
+                        SegmentedButton(selectedItem: $selectedOption1, isDisabled: $disabledSegment, items: options1){}
+                            .padding(.leading, 20).padding(.trailing, 20)
+                        Spacer()
+                    }
+                    
+                    
+                    
+                    VStack {
+                        Slider(value: $settings.dot_radius, in: 1...100,step: 1)
+                        Header3(text: "Dot Radius: \(settings.dot_radius) Pixels")
+                    }.padding(.top,20).padding(.leading,20).padding(.trailing,20)
+                    
+                    VStack {
+                        Slider(value: $settings.photos_number, in: 1...100,step: 1)
+                        Header3(text: "Number of photos: \(settings.photos_number) Photos")
+                    }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                    
+                    VStack {
+                        Slider(value: $settings.photo_interval, in: 1...100,step: 1)
+                        Header3(text: "Interval between photos: \(settings.photo_interval) Seconds")
+                    }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                    
+                    
+                }.padding(.top,0)
+                
+                
                 
                
                 
-                VStack {
-                    Slider(value: $settings.dot_radius, in: 1...100,step: 1)
-                    Header3(text: "Dot Radius: \(settings.dot_radius) Pixels")
-                }.padding(.top,20).padding(.leading,20).padding(.trailing,20)
+                Header2(text: "Exposure settings :").padding(.top,20)
+                Divider()
+                
+                
                 
                 VStack {
-                    Slider(value: $settings.photos_number, in: 1...100,step: 1)
-                    Header3(text: "Number of photos: \(settings.photos_number) Photos")
-                }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                    
+                    Group {
+                        VStack {
+                            Slider(value: $settings.shutter_speed, in: 1...9,step: 1)
+                            Header3(text: "Shutter Speed: \(settings.shutterDesc) ms")
+                        }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                        
+                        VStack {
+                            Slider(value: $settings.white_balance, in: 1...8,step: 1)
+                            Header3(text: "White Balance: \(settings.white_balanceDesc)")
+                        }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                        
+                        
+                    }
+                    
+                }
                 
-                VStack {
-                    Slider(value: $settings.photo_interval, in: 0...100,step: 1)
-                    Header3(text: "Interval between photos: \(settings.photo_interval) Seconds")
-                }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                NavigationLink(destination: PatternView(), isActive: $startMeasurement)
+                {EmptyView()}.navigationBarHidden(true)
                 
+                
+                Spacer()
+                
+                CustomButton(text: "Begin Measurement") {
+                    print(self.selectedOption1)
+                    if self.selectedOption1 == measureAmbient.continuous.description {
+                        settings.ambient = measureAmbient.continuous
+                    }
+                    if self.selectedOption1 == measureAmbient.beginning.description {
+                        settings.ambient = measureAmbient.beginning
+                    }
+                    
+                    if self.selectedOption1 == measureAmbient.none.description {
+                        settings.ambient = measureAmbient.none
+                    }
+                    
+                    
+                    settings.SaveCommonData()
+                    
+                         self.showProgreeView = true
+                 
+                    
+                    //self.delayButton()
+                    
+                    //self.startMeasurement = true
+                    // self.presentationMode.wrappedValue.dismiss()
+                }.padding(.bottom,40)
              
-            }.padding(.top,30)
+                
+       
+                
+                
+            }   // VSTACK
             
-            
-            
-            Header2(text: "Exposure settings :").padding(.top,20)
-            Divider()
             
             VStack {
                 
-                Group {
-                    VStack {
-                        Slider(value: $settings.shutter_speed, in: 1...9,step: 1)
-                        Header3(text: "Shutter Speed: \(settings.shutterDesc) ms")
-                    }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
-                    
-                    VStack {
-                        Slider(value: $settings.white_balance, in: 1...8,step: 1)
-                        Header3(text: "White Balance: \(settings.white_balanceDesc)")
-                    }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
-                    
-                    
+                Spacer()
+                
+                if self.showProgreeView{
+                    //ProgressView().scaleEffect(x: 2, y:2, anchor: .center)
+                    ProgressView("Wait " + String(format: "%.0f", self.timerCounter) ,value: timerCounter, total: 10).onReceive(timer) { _ in
+                        if timerCounter < 10 {
+                            timerCounter += 1
+                        }
+                        else {
+                            self.showProgreeView = false
+                            self.startMeasurement = true
+                            self.timerCounter = 1
+                            
+                        }
+                        
+                    }.padding(.leading,20).padding(.trailing,20)
                 }
                 
-            }
-            
-            
-            
-            
-            Spacer()
-            
-            CustomButton(text: "Begin Measurement") {
-               
+                Spacer()
                 
-                self.presentationMode.wrappedValue.dismiss()
-            }.padding(.bottom,40)
+            }.padding(.top,0)
             
-            
-        }//VStack
+                   
+        }//zStack
+        .navigationBarHidden(false)
+            .statusBarHidden(false)
+        
+        
+        
     }
+    
+    
+    private func delayButton() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0){
+            self.startMeasurement = true
+        }
+    }
+    
 }
 
 

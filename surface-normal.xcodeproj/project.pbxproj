@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD324FBF2926A609004BBE08 /* PatternView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD324FBE2926A609004BBE08 /* PatternView.swift */; };
+		CD324FC12926A959004BBE08 /* PatternViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD324FC02926A959004BBE08 /* PatternViewModel.swift */; };
+		CD368D752926B3DF00680D5A /* BlackPatternView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD368D742926B3DF00680D5A /* BlackPatternView.swift */; };
 		CD40F53C29256B67002FDB69 /* surface_normalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F53B29256B67002FDB69 /* surface_normalApp.swift */; };
 		CD40F53E29256B67002FDB69 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F53D29256B67002FDB69 /* ContentView.swift */; };
 		CD40F54029256B68002FDB69 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CD40F53F29256B68002FDB69 /* Assets.xcassets */; };
@@ -27,6 +30,12 @@
 		CD40F57F29259496002FDB69 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F57E29259496002FDB69 /* Common.swift */; };
 		CD40F5812925970F002FDB69 /* Input_settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F5802925970F002FDB69 /* Input_settings.swift */; };
 		CD40F5832925996B002FDB69 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F5822925996B002FDB69 /* SettingsViewModel.swift */; };
+		CDE7A6E129285129003813A7 /* CameraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6DE29285129003813A7 /* CameraError.swift */; };
+		CDE7A6E229285129003813A7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6DF29285129003813A7 /* CameraManager.swift */; };
+		CDE7A6E329285129003813A7 /* FrameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6E029285129003813A7 /* FrameManager.swift */; };
+		CDE7A6E529285209003813A7 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6E429285209003813A7 /* ErrorView.swift */; };
+		CDE7A6E729285AE1003813A7 /* CGImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6E629285AE1003813A7 /* CGImageExtension.swift */; };
+		CDE7A6E929286031003813A7 /* FrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6E829286031003813A7 /* FrameView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD324FBE2926A609004BBE08 /* PatternView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternView.swift; sourceTree = "<group>"; };
+		CD324FC02926A959004BBE08 /* PatternViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatternViewModel.swift; sourceTree = "<group>"; };
+		CD368D742926B3DF00680D5A /* BlackPatternView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlackPatternView.swift; sourceTree = "<group>"; };
 		CD40F53829256B67002FDB69 /* surface-normal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "surface-normal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD40F53B29256B67002FDB69 /* surface_normalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = surface_normalApp.swift; sourceTree = "<group>"; };
 		CD40F53D29256B67002FDB69 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -70,6 +82,12 @@
 		CD40F57E29259496002FDB69 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		CD40F5802925970F002FDB69 /* Input_settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input_settings.swift; sourceTree = "<group>"; };
 		CD40F5822925996B002FDB69 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		CDE7A6DE29285129003813A7 /* CameraError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraError.swift; sourceTree = "<group>"; };
+		CDE7A6DF29285129003813A7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
+		CDE7A6E029285129003813A7 /* FrameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameManager.swift; sourceTree = "<group>"; };
+		CDE7A6E429285209003813A7 /* ErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		CDE7A6E629285AE1003813A7 /* CGImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGImageExtension.swift; sourceTree = "<group>"; };
+		CDE7A6E829286031003813A7 /* FrameView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +138,7 @@
 		CD40F53A29256B67002FDB69 /* surface-normal */ = {
 			isa = PBXGroup;
 			children = (
+				CDE7A6DD29285118003813A7 /* Camera */,
 				CD40F57D29259464002FDB69 /* ViewModels */,
 				CD40F578292592E5002FDB69 /* Views */,
 				CD40F57329256E83002FDB69 /* Models */,
@@ -166,6 +185,7 @@
 				CD40F56729256E25002FDB69 /* DropDownPicker.swift */,
 				CD40F56A29256E26002FDB69 /* InputStyles.swift */,
 				CD40F56829256E25002FDB69 /* LabelsStyles.swift */,
+				CD368D742926B3DF00680D5A /* BlackPatternView.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -173,6 +193,7 @@
 		CD40F57029256E43002FDB69 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				CDE7A6E629285AE1003813A7 /* CGImageExtension.swift */,
 				CD40F57129256E50002FDB69 /* Extensions.swift */,
 			);
 			path = Extensions;
@@ -192,8 +213,11 @@
 		CD40F578292592E5002FDB69 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CDE7A6E429285209003813A7 /* ErrorView.swift */,
 				CD40F57B2925940B002FDB69 /* AddPatternView.swift */,
 				CD40F579292592F5002FDB69 /* MainView.swift */,
+				CDE7A6E829286031003813A7 /* FrameView.swift */,
+				CD324FBE2926A609004BBE08 /* PatternView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -202,8 +226,19 @@
 			isa = PBXGroup;
 			children = (
 				CD40F5822925996B002FDB69 /* SettingsViewModel.swift */,
+				CD324FC02926A959004BBE08 /* PatternViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		CDE7A6DD29285118003813A7 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				CDE7A6DE29285129003813A7 /* CameraError.swift */,
+				CDE7A6DF29285129003813A7 /* CameraManager.swift */,
+				CDE7A6E029285129003813A7 /* FrameManager.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -336,21 +371,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDE7A6E929286031003813A7 /* FrameView.swift in Sources */,
 				CD40F56D29256E26002FDB69 /* LabelsStyles.swift in Sources */,
 				CD40F57C2925940B002FDB69 /* AddPatternView.swift in Sources */,
 				CD40F57F29259496002FDB69 /* Common.swift in Sources */,
+				CDE7A6E729285AE1003813A7 /* CGImageExtension.swift in Sources */,
+				CD368D752926B3DF00680D5A /* BlackPatternView.swift in Sources */,
+				CD324FC12926A959004BBE08 /* PatternViewModel.swift in Sources */,
 				CD40F57629256E94002FDB69 /* ResultError.swift in Sources */,
 				CD40F57729256E94002FDB69 /* CustomModel.swift in Sources */,
+				CD324FBF2926A609004BBE08 /* PatternView.swift in Sources */,
 				CD40F5832925996B002FDB69 /* SettingsViewModel.swift in Sources */,
+				CDE7A6E129285129003813A7 /* CameraError.swift in Sources */,
 				CD40F56E29256E26002FDB69 /* ButtonsStyles.swift in Sources */,
 				CD40F53E29256B67002FDB69 /* ContentView.swift in Sources */,
 				CD40F57229256E50002FDB69 /* Extensions.swift in Sources */,
 				CD40F56B29256E26002FDB69 /* CheckBoxView.swift in Sources */,
+				CDE7A6E229285129003813A7 /* CameraManager.swift in Sources */,
 				CD40F57A292592F5002FDB69 /* MainView.swift in Sources */,
 				CD40F56C29256E26002FDB69 /* DropDownPicker.swift in Sources */,
 				CD40F5812925970F002FDB69 /* Input_settings.swift in Sources */,
 				CD40F56F29256E26002FDB69 /* InputStyles.swift in Sources */,
+				CDE7A6E329285129003813A7 /* FrameManager.swift in Sources */,
 				CD40F53C29256B67002FDB69 /* surface_normalApp.swift in Sources */,
+				CDE7A6E529285209003813A7 /* ErrorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -512,6 +556,7 @@
 				DEVELOPMENT_TEAM = 63PBXYGL4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to the camera to record the secuence of images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -542,6 +587,7 @@
 				DEVELOPMENT_TEAM = 63PBXYGL4J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need access to the camera to record the secuence of images";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

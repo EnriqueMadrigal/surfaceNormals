@@ -21,10 +21,12 @@ class SettingsViewModel: ObservableObject {
     @Published var photo_interval: Double
     @Published var aperture: Double
     
+    @Published var ambient: measureAmbient = measureAmbient.none
     
     @Published var white_balanceDesc: String = ""
     
     @Published var shutterDesc: String = ""
+    
     
     
     @Published var shutter_speed: Double = 0.0 {
@@ -78,16 +80,31 @@ class SettingsViewModel: ObservableObject {
         
         self.name = ""
         self.desc = ""
-        self.dot_radius = 0.0
-        self.photos_number = 0
-        self.photo_interval = 0
+        self.dot_radius = 1.0
+        self.photos_number = 1.0
+        self.photo_interval = 1.0
         self.aperture = 0.0
         //self.shutter_speed = 0.0
         self.white_balance = 1
         
+       
+    }
+    
+    func SaveCommonData()
+    {
         
+        var currentSettings = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.daylight)
+        
+        currentSettings.dot_radius = Int(self.dot_radius)
+        currentSettings.photos_number = Int(self.photos_number)
+        currentSettings.photo_interval = Int(self.photo_interval)
+        
+        currentSettings.ambient = self.ambient
+        
+        Common.shared.currrentSetting = currentSettings
         
     }
+    
     
     
     

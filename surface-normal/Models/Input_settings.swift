@@ -12,6 +12,7 @@ struct InputSettings: Identifiable {
     var name: String
     var desc: String
     
+    var ambient: measureAmbient
    var dot_radius: Int
     var photos_number: Int
     var photo_interval: Int
