@@ -14,8 +14,8 @@
             filePath = "surface-normal/ViewModels/PatternViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,9 +30,9 @@
             filePath = "surface-normal/ViewModels/PatternViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
-            landmarkName = "setupSubscriptions()"
+            startingLineNumber = "113"
+            endingLineNumber = "113"
+            landmarkName = "startPatterns()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -50,6 +50,22 @@
             endingLineNumber = "110"
             landmarkName = "body"
             landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "89838C4B-8E6E-4AC5-A9DA-10555F4BBDE2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "surface-normal/ViewModels/PatternViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
+            landmarkName = "saveImage()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

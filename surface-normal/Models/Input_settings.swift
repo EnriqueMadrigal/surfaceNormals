@@ -20,5 +20,6 @@ struct InputSettings: Identifiable {
     var shutter_speed: shutterSpeed
     var white_balance: whiteBalance
  
+    var shutterSpeed: Double
     
 }

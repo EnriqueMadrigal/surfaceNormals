@@ -42,11 +42,13 @@ class PatternViewModel: ObservableObject {
     
     @Published var error: Error?
 
-    private let cameraManager = CameraManager.shared
-    private let frameManager = FrameManager.shared
+    private let CameraManager = CaptureModel.shared
     
-    @Published var frame: CGImage?
-    private let context = CIContext()
+   // private let cameraManager = CameraManager.shared
+   // private let frameManager = FrameManager.shared
+    
+   // @Published var frame: CGImage?
+   // private let context = CIContext()
     
     
     var currentAmbient: measureAmbient = measureAmbient.none
@@ -68,26 +70,18 @@ class PatternViewModel: ObservableObject {
         self.screenWidth = screenSize.width
         self.screenHeight = screenSize.height
         
+        let currentDuration = Common.shared.currrentSetting.shutterSpeed
         
-                
+        CameraManager.set(exposure: .max, duration: currentDuration)
+        CameraManager.setWB(wb: Common.shared.currrentSetting.white_balance)
+        //CameraManager.startRunningCaptureSession()
         
-        setupSubscriptions()
+       // setupSubscriptions()
                
         startPatterns()
-       /*
-        DispatchQueue.main.async {
-            //self.showProgressView = true
-            let maxTime: Double = 10
-            
-            usleep(useconds_t(maxTime * 1000000))
-            self.showProgressView = false
-            self.startPatterns()
-            
-        }
-        */
-        
+     
     }
-    
+    /*
     func setupSubscriptions() {
       // swiftlint:disable:next array_init
       cameraManager.$error
@@ -99,7 +93,7 @@ class PatternViewModel: ObservableObject {
         .receive(on: RunLoop.main)
         .compactMap { buffer in
           guard let image = CGImage.create(from: buffer) else {
-              return (self.emptyImage(with: CGSize(width: 100, height: 100)) as! CGImage) 
+              return (self.drawMyImage())
              
               
           }
@@ -111,7 +105,7 @@ class PatternViewModel: ObservableObject {
         }
         .assign(to: &$frame)
     }
-    
+    */
     
     func startPatterns()
     {
@@ -148,9 +142,11 @@ class PatternViewModel: ObservableObject {
                 
                 if self.photoCounter >= self.photoInterval {
                     
+                    self.saveImage()
                     self.updateDotPosition()
                     self.photoCounter = 0
                     self.curPattern += 1
+                    
                 }
                 
                 self.photoCounter += 1
@@ -186,21 +182,14 @@ class PatternViewModel: ObservableObject {
                     
                 }
                 
-                
-                print(self.curPattern)
-                print(self.photoCounter)
+             
               
             }
             
         })
         
         
-        
-      
      
-        
-        print (self.randomx)
-        print (self.randomy)
         
     }
     
@@ -240,15 +229,70 @@ class PatternViewModel: ObservableObject {
     
     func viewWillDissapear() {
         self.StopPatterns()
+        self.CameraManager.stopRunningCaptureSession()
     }
     
-  func emptyImage(with size: CGSize) -> UIImage?
-   {
-       UIGraphicsBeginImageContext(size)
-   let image = UIGraphicsGetImageFromCurrentImageContext()
-   UIGraphicsEndImageContext()
-   return image
-   }
-                                              
+    func goodBytesPerRow(_ width: Int) -> Int {
+        return (((width * 4) + 15) / 16) * 16
+    }
+
+    func drawMyImage() -> CGImage? {
+        let bounds = CGRect(x: 0, y:0, width: 200, height: 200)
+        let intWidth = Int(ceil(bounds.width))
+        let intHeight = Int(ceil(bounds.height))
+        let bitmapContext = CGContext(data: nil,
+                                      width: intWidth, height: intHeight,
+                                      bitsPerComponent: 8,
+                                      bytesPerRow: goodBytesPerRow(intWidth),
+                                      space: CGColorSpace(name: CGColorSpace.sRGB)!,
+                                      bitmapInfo: CGImageAlphaInfo.premultipliedFirst.rawValue)
+
+        if let cgContext = bitmapContext {
+            cgContext.saveGState()
+            cgContext.setFillColor(gray: 0, alpha: 1.0)
+            cgContext.fill(bounds)
+
+        
+
+            cgContext.restoreGState()
+
+            return cgContext.makeImage()
+        }
+
+        return nil
+    }
+
+     /*
+    func saveImage() ->Void{
+        
+        if let image = self.frame {
+            
+           let img = UIImage(cgImage: image)
+            
+           let curUrl =  saveLocalImage(image: img)
+            print ("Image saved")
+        }
+        
+        
+    }
+    */
+    
+    
+    func saveImage()
+    {
+        self.CameraManager.startRunningCaptureSession()
+        //CameraManager.setWB(wb: Common.shared.currrentSetting.white_balance)
+        self.CameraManager.capturedImage.map { captureImage in
+            
+            let imageName =  "img-\(self.curPattern).jpg"
+            print("Getting photo")
+            saveLocalImage(image: captureImage, name: imageName)
+            
+            
+        }
+        
+        
+        
+    }
                                               
 }

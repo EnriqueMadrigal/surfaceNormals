@@ -30,6 +30,8 @@
 		CD40F57F29259496002FDB69 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F57E29259496002FDB69 /* Common.swift */; };
 		CD40F5812925970F002FDB69 /* Input_settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F5802925970F002FDB69 /* Input_settings.swift */; };
 		CD40F5832925996B002FDB69 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD40F5822925996B002FDB69 /* SettingsViewModel.swift */; };
+		CD75ECB3292BE8AF001D5B6C /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD75ECB2292BE8AF001D5B6C /* ImageUtils.swift */; };
+		CD75ECB5292BF82C001D5B6C /* CameraCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD75ECB4292BF82C001D5B6C /* CameraCapture.swift */; };
 		CDE7A6E129285129003813A7 /* CameraError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6DE29285129003813A7 /* CameraError.swift */; };
 		CDE7A6E229285129003813A7 /* CameraManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6DF29285129003813A7 /* CameraManager.swift */; };
 		CDE7A6E329285129003813A7 /* FrameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE7A6E029285129003813A7 /* FrameManager.swift */; };
@@ -82,6 +84,8 @@
 		CD40F57E29259496002FDB69 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		CD40F5802925970F002FDB69 /* Input_settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Input_settings.swift; sourceTree = "<group>"; };
 		CD40F5822925996B002FDB69 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		CD75ECB2292BE8AF001D5B6C /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
+		CD75ECB4292BF82C001D5B6C /* CameraCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCapture.swift; sourceTree = "<group>"; };
 		CDE7A6DE29285129003813A7 /* CameraError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraError.swift; sourceTree = "<group>"; };
 		CDE7A6DF29285129003813A7 /* CameraManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraManager.swift; sourceTree = "<group>"; };
 		CDE7A6E029285129003813A7 /* FrameManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameManager.swift; sourceTree = "<group>"; };
@@ -138,6 +142,7 @@
 		CD40F53A29256B67002FDB69 /* surface-normal */ = {
 			isa = PBXGroup;
 			children = (
+				CD75ECB1292BE897001D5B6C /* Utils */,
 				CDE7A6DD29285118003813A7 /* Camera */,
 				CD40F57D29259464002FDB69 /* ViewModels */,
 				CD40F578292592E5002FDB69 /* Views */,
@@ -231,12 +236,21 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
+		CD75ECB1292BE897001D5B6C /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				CD75ECB2292BE8AF001D5B6C /* ImageUtils.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		CDE7A6DD29285118003813A7 /* Camera */ = {
 			isa = PBXGroup;
 			children = (
 				CDE7A6DE29285129003813A7 /* CameraError.swift */,
 				CDE7A6DF29285129003813A7 /* CameraManager.swift */,
 				CDE7A6E029285129003813A7 /* FrameManager.swift */,
+				CD75ECB4292BF82C001D5B6C /* CameraCapture.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -378,12 +392,14 @@
 				CDE7A6E729285AE1003813A7 /* CGImageExtension.swift in Sources */,
 				CD368D752926B3DF00680D5A /* BlackPatternView.swift in Sources */,
 				CD324FC12926A959004BBE08 /* PatternViewModel.swift in Sources */,
+				CD75ECB5292BF82C001D5B6C /* CameraCapture.swift in Sources */,
 				CD40F57629256E94002FDB69 /* ResultError.swift in Sources */,
 				CD40F57729256E94002FDB69 /* CustomModel.swift in Sources */,
 				CD324FBF2926A609004BBE08 /* PatternView.swift in Sources */,
 				CD40F5832925996B002FDB69 /* SettingsViewModel.swift in Sources */,
 				CDE7A6E129285129003813A7 /* CameraError.swift in Sources */,
 				CD40F56E29256E26002FDB69 /* ButtonsStyles.swift in Sources */,
+				CD75ECB3292BE8AF001D5B6C /* ImageUtils.swift in Sources */,
 				CD40F53E29256B67002FDB69 /* ContentView.swift in Sources */,
 				CD40F57229256E50002FDB69 /* Extensions.swift in Sources */,
 				CD40F56B29256E26002FDB69 /* CheckBoxView.swift in Sources */,

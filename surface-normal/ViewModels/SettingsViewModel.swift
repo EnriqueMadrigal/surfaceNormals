@@ -29,9 +29,9 @@ class SettingsViewModel: ObservableObject {
     
     
     
-    @Published var shutter_speed: Double = 0.0 {
+    @Published var shutter_speed: Double = 1.0 {
         didSet{
-
+                /*
             switch shutter_speed {
             case 1.0: self.shutterDesc = shutterSpeed.onethird.description
             case 2.0: self.shutterDesc = shutterSpeed.oneeight.description
@@ -45,23 +45,22 @@ class SettingsViewModel: ObservableObject {
             default:
                 self.shutterDesc = ""
             }
+            */
             
+            let curValue = pow(shutter_speed , 1 / 5.0)
+            self.shutterDesc = String(format: "%.6f", curValue)
             
         }
     }
     
-    @Published var white_balance: Double {
+    @Published var white_balance: Double = 1.0 {
         didSet {
             
             switch white_balance {
-            case 1.0: self.white_balanceDesc = whiteBalance.candlelight.description
-            case 2.0: self.white_balanceDesc = whiteBalance.tungstenbulb.description
-            case 3.0: self.white_balanceDesc = whiteBalance.sunrise.description
-            case 4.0: self.white_balanceDesc = whiteBalance.flourescent.description
-            case 5.0: self.white_balanceDesc = whiteBalance.flash.description
-            case 6.0: self.white_balanceDesc = whiteBalance.daylight.description
-            case 7.0: self.white_balanceDesc = whiteBalance.moderately.description
-            case 8.0: self.white_balanceDesc =  whiteBalance.shade.description
+            case 1.0: self.white_balanceDesc = whiteBalance.locked.description
+            case 2.0: self.white_balanceDesc = whiteBalance.autoWhiteBalance.description
+            case 3.0: self.white_balanceDesc = whiteBalance.continuosWhiteBalance.description
+          
             default:
                 self.shutterDesc = ""
                 
@@ -85,7 +84,7 @@ class SettingsViewModel: ObservableObject {
         self.photo_interval = 1.0
         self.aperture = 0.0
         //self.shutter_speed = 0.0
-        self.white_balance = 1
+        self.white_balance = 1.0
         
        
     }
@@ -93,7 +92,7 @@ class SettingsViewModel: ObservableObject {
     func SaveCommonData()
     {
         
-        var currentSettings = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.daylight)
+        var currentSettings = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, shutterSpeed: shutter_speed)
         
         currentSettings.dot_radius = Int(self.dot_radius)
         currentSettings.photos_number = Int(self.photos_number)

@@ -44,9 +44,10 @@ struct PatternView: View {
             
             ErrorView(error: pattern.error)
             
+            /*
             FrameView(image: pattern.frame)
-              .edgesIgnoringSafeArea(.all)
-            
+                .edgesIgnoringSafeArea(.all).frame(width: 160, height: 200,alignment: .center)
+            */
             
             VStack {
                 

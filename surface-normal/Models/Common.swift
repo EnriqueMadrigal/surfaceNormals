@@ -28,27 +28,17 @@ enum measureAmbient : CustomStringConvertible{
 
 
 enum whiteBalance : CustomStringConvertible{
-    case candlelight
-    case tungstenbulb
-    case sunrise
-    case flourescent
-    case flash
-    case daylight
-    case moderately
-    case shade
+    case locked
+    case autoWhiteBalance
+    case continuosWhiteBalance
     
     
     var description: String {
     
         switch self {
-        case .candlelight: return "Candlelight"
-        case .tungstenbulb: return "Tungsten Bulb"
-        case .sunrise: return "Sunrise/Sunset (clear sky)"
-        case .flourescent: return "Flourescent Lamps"
-        case .flash: return "Electronic Flash"
-        case .daylight: return "Daylight with Clear Sky"
-        case .moderately: return "Moderately Overcast Sky"
-        case .shade: return "Shade or Heavily Overcast Sky"
+        case .locked: return "Locked WB"
+        case .autoWhiteBalance: return "Auto WB"
+        case .continuosWhiteBalance: return "Continuos WB"
             
         }
         
@@ -99,7 +89,7 @@ class Common {
         
         //Default settings
         
-        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.daylight)
+        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, shutterSpeed: 0.0)
         
         
     }

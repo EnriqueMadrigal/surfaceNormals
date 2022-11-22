@@ -85,12 +85,12 @@ struct AddPatternView: View {
                     
                     Group {
                         VStack {
-                            Slider(value: $settings.shutter_speed, in: 1...9,step: 1)
+                            Slider(value: $settings.shutter_speed, in: 0...1,step: 0.01)
                             Header3(text: "Shutter Speed: \(settings.shutterDesc) ms")
                         }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
                         
                         VStack {
-                            Slider(value: $settings.white_balance, in: 1...8,step: 1)
+                            Slider(value: $settings.white_balance, in: 1...3,step: 1)
                             Header3(text: "White Balance: \(settings.white_balanceDesc)")
                         }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
                         
