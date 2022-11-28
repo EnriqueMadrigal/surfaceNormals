@@ -16,7 +16,10 @@ struct AddPatternView: View {
        
     private var options1: [String] = [measureAmbient.none.description, measureAmbient.beginning.description, measureAmbient.continuous.description]
      
+    private var options2: [String] = [fileFormat.PNG.description, fileFormat.RAW.description, fileFormat.JPG.description]
+    
      @State private var selectedOption1 = measureAmbient.none.description
+    @State private var selectedOption2 = fileFormat.PNG.description
     @State private var selected_value = "0"
     
     @State private var disabledSegment: Bool = false
@@ -69,6 +72,15 @@ struct AddPatternView: View {
                         Header3(text: "Interval between photos: \(settings.photo_interval) Seconds")
                     }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
                     
+                    HStack {
+                        Spacer()
+                        
+                        SegmentedButton(selectedItem: $selectedOption2, isDisabled: $disabledSegment, items: options2){}
+                            .padding(.leading, 20).padding(.trailing, 20)
+                        Spacer()
+                    }
+                    
+                    
                     
                 }.padding(.top,0)
                 
@@ -84,6 +96,12 @@ struct AddPatternView: View {
                 VStack {
                     
                     Group {
+                        
+                        VStack {
+                            Slider(value: $settings.Iso, in: settings.minIsoValue...settings.maxIsoValue,step: 100)
+                            Header3(text: "ISO: \(settings.Iso)")
+                        }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
+                        
                         VStack {
                             Slider(value: $settings.shutter_speed, in: 0...1,step: 0.01)
                             Header3(text: "Shutter Speed: \(settings.shutterDesc) ms")
@@ -117,6 +135,19 @@ struct AddPatternView: View {
                     if self.selectedOption1 == measureAmbient.none.description {
                         settings.ambient = measureAmbient.none
                     }
+                    
+                    if self.selectedOption2 == fileFormat.PNG.description{
+                        settings.fileformat = fileFormat.PNG
+                    }
+                    
+                    if self.selectedOption2 == fileFormat.JPG.description{
+                        settings.fileformat = fileFormat.JPG
+                    }
+                    
+                    if self.selectedOption2 == fileFormat.RAW.description{
+                        settings.fileformat = fileFormat.RAW
+                    }
+                    
                     
                     
                     settings.SaveCommonData()

@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+import AVFoundation
 
 class SettingsViewModel: ObservableObject {
     
@@ -22,11 +22,17 @@ class SettingsViewModel: ObservableObject {
     @Published var aperture: Double
     
     @Published var ambient: measureAmbient = measureAmbient.none
+    @Published var fileformat: fileFormat = fileFormat.PNG
     
     @Published var white_balanceDesc: String = ""
     
     @Published var shutterDesc: String = ""
+    @Published var minIsoValue: Double
+    @Published var maxIsoValue: Double
+    @Published var Iso: Double
     
+    var backCamera: AVCaptureDevice?
+    var frontCamera: AVCaptureDevice?
     
     
     @Published var shutter_speed: Double = 1.0 {
@@ -86,20 +92,57 @@ class SettingsViewModel: ObservableObject {
         //self.shutter_speed = 0.0
         self.white_balance = 1.0
         
+        self.minIsoValue = 0.0
+        self.maxIsoValue = 0.0
+        self.Iso = 0.0
+        
+        self.setupDevices()
+       
+        
+        if let currentCamera = frontCamera {
+            self.minIsoValue = Double(Esposure.min.value(device: currentCamera)) + 100
+            self.maxIsoValue = Double(Esposure.max.value(device: currentCamera))
+            self.Iso = self.minIsoValue
+       
+            
+            print(self.minIsoValue)
+            print(self.maxIsoValue)
+            
+        }
        
     }
+    
+    
+    func setupDevices() {
+
+        let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [AVCaptureDevice.DeviceType.builtInWideAngleCamera], mediaType: .video, position: .unspecified)
+
+        let devices = deviceDiscoverySession.devices
+        for device in devices {
+            if device.position == AVCaptureDevice.Position.back {
+                backCamera = device
+            } else if device.position == AVCaptureDevice.Position.front {
+                frontCamera = device
+            }//if else
+        }//for in
+
+       
+
+    }//setupDevices
+
+    
     
     func SaveCommonData()
     {
         
-        var currentSettings = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, shutterSpeed: shutter_speed)
+        var currentSettings = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, iso: 0.0, shutterSpeed: shutter_speed, formatFile: fileFormat.PNG)
         
         currentSettings.dot_radius = Int(self.dot_radius)
         currentSettings.photos_number = Int(self.photos_number)
         currentSettings.photo_interval = Int(self.photo_interval)
         
         currentSettings.ambient = self.ambient
-        
+        currentSettings.iso = Float(self.Iso)
         Common.shared.currrentSetting = currentSettings
         
     }

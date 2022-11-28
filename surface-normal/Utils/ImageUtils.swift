@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-func saveLocalImage(image: UIImage, name: String)-> URL{
+func saveLocalImageJPG(image: UIImage, name: String)-> URL{
     var filename: URL = URL(fileURLWithPath: "")
     
     if let data = image.jpegData(compressionQuality: 0.8) {
@@ -18,6 +18,21 @@ func saveLocalImage(image: UIImage, name: String)-> URL{
     
     return filename
 }
+
+
+func saveLocalImagePNG(image: UIImage, name: String)-> URL{
+    var filename: URL = URL(fileURLWithPath: "")
+    
+    if let data = image.pngData() {
+            filename = getDocumentsDirectory().appendingPathComponent(name)
+           try? data.write(to: filename)
+       }
+    
+    return filename
+}
+
+
+
 
 
 func getDocumentsDirectory() -> URL {

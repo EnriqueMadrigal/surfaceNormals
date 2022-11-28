@@ -39,6 +39,7 @@ class PatternViewModel: ObservableObject {
     
     var photoCounter = 1
     
+    var currentFileFormat = fileFormat.PNG
     
     @Published var error: Error?
 
@@ -56,9 +57,13 @@ class PatternViewModel: ObservableObject {
     
     init()
     {
+     
+        
+        
+       
         
         dotSize = CGFloat(Common.shared.currrentSetting.dot_radius)
-    
+        
         self.numberOfPhotos = Common.shared.currrentSetting.photos_number
         self.photoInterval = Common.shared.currrentSetting.photo_interval
         
@@ -71,8 +76,13 @@ class PatternViewModel: ObservableObject {
         self.screenHeight = screenSize.height
         
         let currentDuration = Common.shared.currrentSetting.shutterSpeed
+        let currentIso = Common.shared.currrentSetting.iso
         
-        CameraManager.set(exposure: .max, duration: currentDuration)
+        self.currentFileFormat = Common.shared.currrentSetting.formatFile
+        
+     
+        
+        CameraManager.set(exposure: currentIso, duration: currentDuration)
         CameraManager.setWB(wb: Common.shared.currrentSetting.white_balance)
         //CameraManager.startRunningCaptureSession()
         
@@ -280,13 +290,40 @@ class PatternViewModel: ObservableObject {
     
     func saveImage()
     {
-        self.CameraManager.startRunningCaptureSession()
+        
+        
+        
+       
         //CameraManager.setWB(wb: Common.shared.currrentSetting.white_balance)
-        self.CameraManager.capturedImage.map { captureImage in
+    
+        if self.currentFileFormat != fileFormat.RAW
+        {
+            self.CameraManager.startRunningCaptureSession()
             
-            let imageName =  "img-\(self.curPattern).jpg"
-            print("Getting photo")
-            saveLocalImage(image: captureImage, name: imageName)
+            self.CameraManager.rawData.map { imageData in
+                
+                
+                if self.currentFileFormat == fileFormat.PNG {
+                    let imageName =  "img-\(self.curPattern).png"
+                    if let captureImage = UIImage(data: imageData){
+                        saveLocalImagePNG(image: captureImage, name: imageName)
+                    }
+                }
+                else if self.currentFileFormat == fileFormat.JPG {
+                    let imageName =  "img-\(self.curPattern).jpg"
+                    if let captureImage = UIImage(data: imageData){
+                        saveLocalImageJPG(image: captureImage, name: imageName)
+                    }
+                }
+                
+               
+                
+            }
+        }
+        
+        else { //RawFormat
+            
+            
             
             
         }

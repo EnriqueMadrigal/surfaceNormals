@@ -20,6 +20,8 @@ struct InputSettings: Identifiable {
     var shutter_speed: shutterSpeed
     var white_balance: whiteBalance
  
+    var iso: Float
     var shutterSpeed: Double
+    var formatFile: fileFormat
     
 }

@@ -37,8 +37,10 @@ class CaptureModel: NSObject, ObservableObject {
     var frontCamera: AVCaptureDevice?
     var photoOutput: AVCapturePhotoOutput?
     var currentCamera: AVCaptureDevice?
-    @Published var capturedImage: UIImage?
+    //@Published var capturedImage: UIImage?
 
+    @Published var rawData: Data?
+    
     enum Status {
       case unconfigured
       case configured
@@ -51,7 +53,10 @@ class CaptureModel: NSObject, ObservableObject {
     
     @Published var error: CameraError?
     
+    var withRawFormat: Bool = false
+    
     override init() {
+        
         super.init()
         setupCaptureSession()
         setupDevices()
@@ -97,10 +102,16 @@ class CaptureModel: NSObject, ObservableObject {
             photoOutput = AVCapturePhotoOutput()
             photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])], completionHandler: {(success, error) in
                 
-                print("Image saved")
+                //print("Image saved")
                 
             })
+            
             captureSession.addOutput(photoOutput!)
+            
+            if ((photoOutput?.isAppleProRAWSupported) != nil) {
+                //photoOutput?.isAppleProRAWEnabled = true
+            }
+            
             captureSession.commitConfiguration()
 
         } catch {
@@ -110,6 +121,10 @@ class CaptureModel: NSObject, ObservableObject {
 
     }//setupInputOutput
 
+    
+   
+    
+    
     func startRunningCaptureSession() {
         let settings = AVCapturePhotoSettings()
 
@@ -117,12 +132,42 @@ class CaptureModel: NSObject, ObservableObject {
         photoOutput?.capturePhoto(with: settings, delegate: self)
     }//startRunningCaptureSession
 
+    
+    func startRunningCaptureSessionRAW() {
+        
+        if let photoOutput = photoOutput
+        {
+            let query = photoOutput.isAppleProRAWEnabled ? {AVCapturePhotoOutput.isAppleProRAWPixelFormat($0)} : {AVCapturePhotoOutput.isBayerRAWPixelFormat($0)}
+            
+            
+            
+            guard let rawFormat = photoOutput.availableRawPhotoPixelFormatTypes.first(where: query) else {
+                fatalError("No RAW format found.")
+            }
+            
+            let processedFormat = [AVVideoCodecKey: AVVideoCodecType.hevc]
+            let photoSettings = AVCapturePhotoSettings(rawPixelFormatType: rawFormat,processedFormat: processedFormat)
+            
+           // let delegate = RAWCap
+            
+            captureSession.startRunning()
+            photoOutput.capturePhoto(with: photoSettings, delegate: self)
+            
+            
+        }
+        
+        //let settings = AVCapturePhotoSettings()
+
+       
+    }//startRunningCaptureSession
+    
+    
     func stopRunningCaptureSession() {
         captureSession.stopRunning()
     }//startRunningCaptureSession
     
     
-    func set(exposure: Esposure, duration: Double) {
+    func set(exposure: Float, duration: Double) {
         
         let p = pow(duration , kExposureDurationPower)
         
@@ -140,7 +185,7 @@ class CaptureModel: NSObject, ObservableObject {
            if device.isExposureModeSupported(.custom) {
                do{
                    try device.lockForConfiguration()
-                   device.setExposureModeCustom(duration: CMTimeMakeWithSeconds(newDurationSeconds, preferredTimescale: 1000*1000*1000), iso: exposure.value(device: device)) { (_) in
+                   device.setExposureModeCustom(duration: CMTimeMakeWithSeconds(newDurationSeconds, preferredTimescale: 1000*1000*1000), iso: exposure) { (_) in
                        print("Done Esposure")
                    }
                    device.unlockForConfiguration()
@@ -194,12 +239,29 @@ class CaptureModel: NSObject, ObservableObject {
 
 extension CaptureModel: AVCapturePhotoCaptureDelegate {
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+       
+        
+        /*
         guard let data = photo.fileDataRepresentation(),
-              let image = UIImage(data: data) else {
+             let image = UIImage(data: data)
+                
+                else {
             return
         }
-        capturedImage = image
+        */
+        
+        if let data = photo.fileDataRepresentation()
+        {
+            //capturedImage = UIImage(data: data)
+            self.rawData = data
+            
+        }
+        
+        
       
+        
+        
+        
     }
     
     private func checkPermissions() {

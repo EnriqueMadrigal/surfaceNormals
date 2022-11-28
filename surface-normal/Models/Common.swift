@@ -46,6 +46,25 @@ enum whiteBalance : CustomStringConvertible{
     
 }
 
+enum fileFormat : CustomStringConvertible{
+    case JPG
+    case PNG
+    case RAW
+    
+    
+    var description: String {
+    
+        switch self {
+        case .JPG: return "JPG"
+        case .PNG: return "PNG"
+        case .RAW: return "RAW"
+        }
+        
+    }
+    
+}
+
+
 
 enum shutterSpeed : CustomStringConvertible{
     case onethird
@@ -89,7 +108,7 @@ class Common {
         
         //Default settings
         
-        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, shutterSpeed: 0.0)
+        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, iso: 0.0, shutterSpeed: 0.0, formatFile: fileFormat.PNG)
         
         
     }
