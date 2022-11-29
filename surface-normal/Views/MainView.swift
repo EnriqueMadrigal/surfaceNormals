@@ -11,6 +11,10 @@ struct MainView: View {
     
     @State private var takePhoto: Bool = false
     
+    @State private var confirmationShow: Bool = false
+    
+    @StateObject private var viewModel = MainViewModel()
+    
     
     var body: some View {
        
@@ -35,6 +39,28 @@ struct MainView: View {
                     }
                     
                     Spacer()
+                    
+                }.padding(.top,40)
+               
+                
+                HStack{
+                    Spacer()
+                    
+                    CustomButton(text: "Delete images") {
+                        self.confirmationShow = true
+                    }
+                    
+                    Spacer().alert(isPresented: $confirmationShow) {
+                        
+                        Alert(title: Text("! Warning !"), message: Text("Are you sure you want to delete the image files ?"),
+                              primaryButton: .destructive(Text("Confirm"), action: {
+                               
+                            self.viewModel.deleteFiles()
+                                
+                              }),
+                              secondaryButton: .cancel(Text("Cancel"), action: {}))
+                        
+                    }
                     
                 }.padding(.top,40)
                 

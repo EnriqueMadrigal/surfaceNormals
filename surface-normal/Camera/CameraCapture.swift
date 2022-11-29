@@ -28,8 +28,8 @@ enum Esposure {
 
 class CaptureModel: NSObject, ObservableObject {
     
-    let kExposureDurationPower = 5.0
-    let kExposureMinDuration = 1.0 / 1000
+    let kExposureDurationPower: Float64 = 5.0
+    let kExposureMinDuration: Float64 = 1.0 / 1000
     
     
     let captureSession = AVCaptureSession()
@@ -168,19 +168,17 @@ class CaptureModel: NSObject, ObservableObject {
     
     
     func set(exposure: Float, duration: Double) {
-        
-        let p = pow(duration , kExposureDurationPower)
-        
-        
-           guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
-        
-        let minDurationSeconds = max(CMTimeGetSeconds(device.activeFormat.minExposureDuration), kExposureMinDuration)
-       
+      
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+      
+        // KEEp this for a slider
+        /*
+        let p = pow(Float64(duration),kExposureDurationPower)
+        let minDurationSeconds =   max(CMTimeGetSeconds(device.activeFormat.minExposureDuration), kExposureMinDuration)
         let maxDurationSeconds = CMTimeGetSeconds(device.activeFormat.maxExposureDuration)
-        
         let newDurationSeconds = p * (maxDurationSeconds - minDurationSeconds) + minDurationSeconds
-        
-        //AVCaptureDevice.currentExposureDuration
+        */
+        let newDurationSeconds = Float64(duration)
         
            if device.isExposureModeSupported(.custom) {
                do{
@@ -238,6 +236,8 @@ class CaptureModel: NSObject, ObservableObject {
 }
 
 extension CaptureModel: AVCapturePhotoCaptureDelegate {
+    
+    
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
        
         
@@ -263,6 +263,26 @@ extension CaptureModel: AVCapturePhotoCaptureDelegate {
         
         
     }
+    /*
+    func photoOutput(_ output: AVCapturePhotoOutput, willBeginCaptureFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+        AudioServicesDisposeSystemSoundID(1108)
+    }
+    
+    */
+    func photoOutput(_ output: AVCapturePhotoOutput, willCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+           // if isSilentModeOn {
+               // print("[Camera]: Silent sound activated")
+                AudioServicesDisposeSystemSoundID(1108)
+            //}
+            
+        }
+        func photoOutput(_ output: AVCapturePhotoOutput, didCapturePhotoFor resolvedSettings: AVCaptureResolvedPhotoSettings) {
+            //if isSilentModeOn {
+                AudioServicesDisposeSystemSoundID(1108)
+            //}
+        }
+    
+    
     
     private func checkPermissions() {
       switch AVCaptureDevice.authorizationStatus(for: .video) {

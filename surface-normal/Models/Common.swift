@@ -108,7 +108,7 @@ class Common {
         
         //Default settings
         
-        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, iso: 0.0, shutterSpeed: 0.0, formatFile: fileFormat.PNG)
+        self.currrentSetting = InputSettings(id: 0, name: "", desc: "", ambient: measureAmbient.none, dot_radius: 0, photos_number: 0, photo_interval: 0.0, aperture: 0.0, shutter_speed: shutterSpeed.one8000, white_balance: whiteBalance.locked, iso: 0.0, shutterSpeed: 0.0, formatFile: fileFormat.PNG)
         
         
     }

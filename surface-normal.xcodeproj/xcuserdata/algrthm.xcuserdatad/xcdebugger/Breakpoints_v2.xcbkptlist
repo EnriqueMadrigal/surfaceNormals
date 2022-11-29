@@ -14,8 +14,8 @@
             filePath = "surface-normal/ViewModels/PatternViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "surface-normal/ViewModels/PatternViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "startPatterns()"
             landmarkType = "7">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "surface-normal/Views/AddPatternView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "surface-normal/ViewModels/SettingsViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "init()"
             landmarkType = "7">
          </BreakpointContent>

@@ -35,11 +35,12 @@ class PatternViewModel: ObservableObject {
     
     var curPattern = 1
     var numberOfPhotos = 1
-    var photoInterval = 1
+    var photoInterval: Double = 1.0
     
-    var photoCounter = 1
+    var photoCounter:Double = 0.0
     
     var currentFileFormat = fileFormat.PNG
+    var description: String = ""
     
     @Published var error: Error?
 
@@ -79,7 +80,10 @@ class PatternViewModel: ObservableObject {
         let currentIso = Common.shared.currrentSetting.iso
         
         self.currentFileFormat = Common.shared.currrentSetting.formatFile
-        
+        self.description = Common.shared.currrentSetting.desc
+        if self.description.count == 0 {
+            self.description = "img"
+        }
      
         
         CameraManager.set(exposure: currentIso, duration: currentDuration)
@@ -87,7 +91,8 @@ class PatternViewModel: ObservableObject {
         //CameraManager.startRunningCaptureSession()
         
        // setupSubscriptions()
-               
+        self.photoCounter = 0.0
+        self.CameraManager.startRunningCaptureSession()
         startPatterns()
      
     }
@@ -140,7 +145,7 @@ class PatternViewModel: ObservableObject {
         //self.randomx = -195.0
         //self.randomy = 1.0
         
-        self.patternTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { (Timer) -> Void in
+        self.patternTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true, block: { (Timer) -> Void in
             DispatchQueue.main.async {
                 //self.randomx += 1.0
                 //self.randomy += 1.0
@@ -159,7 +164,7 @@ class PatternViewModel: ObservableObject {
                     
                 }
                 
-                self.photoCounter += 1
+                self.photoCounter += 0.1
                 
                 
                
@@ -213,6 +218,11 @@ class PatternViewModel: ObservableObject {
         
         self.randomx = CGFloat.random(in: dotHalf..<maxposx)
         self.randomy = CGFloat.random(in: dotHalf..<maxposy)
+        
+        self.curDotX = Int(self.randomx)
+        self.curDotY = Int(self.randomy)
+        
+   
         
         self.randomx = self.randomx - (maxposx / 2)
         self.randomy = self.randomy - (maxposy / 2)
@@ -298,21 +308,48 @@ class PatternViewModel: ObservableObject {
     
         if self.currentFileFormat != fileFormat.RAW
         {
+            
+            
             self.CameraManager.startRunningCaptureSession()
             
             self.CameraManager.rawData.map { imageData in
                 
+                print ("Image saved")
+               
+                
+                var xpos: String = "\(self.curDotX)"
+                var ypos: String = "\(self.curDotY)"
+                
+                
+                print(xpos)
+                print(ypos)
+                
+                if self.randomx == 1000 {
+                    xpos = "0"
+                }
+                
+                if self.randomy == 1000 {
+                    ypos = "0"
+                }
+               
                 
                 if self.currentFileFormat == fileFormat.PNG {
-                    let imageName =  "img-\(self.curPattern).png"
+                    let imageName =  self.description + "-\(self.curPattern)" + "_" + xpos + "_" + ypos + ".png"
                     if let captureImage = UIImage(data: imageData){
-                        saveLocalImagePNG(image: captureImage, name: imageName)
+                        
+                        DispatchQueue.main.async{
+                            saveLocalImagePNG(image: captureImage, name: imageName)
+                        }
+                        
+                        
                     }
                 }
                 else if self.currentFileFormat == fileFormat.JPG {
-                    let imageName =  "img-\(self.curPattern).jpg"
+                    let imageName =  self.description + "_" + xpos + "_" + ypos + "-\(self.curPattern).jpg"
                     if let captureImage = UIImage(data: imageData){
-                        saveLocalImageJPG(image: captureImage, name: imageName)
+                        DispatchQueue.main.async{
+                            saveLocalImagePNG(image: captureImage, name: imageName)
+                        }
                     }
                 }
                 

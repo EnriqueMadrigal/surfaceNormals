@@ -15,7 +15,7 @@ struct InputSettings: Identifiable {
     var ambient: measureAmbient
    var dot_radius: Int
     var photos_number: Int
-    var photo_interval: Int
+    var photo_interval: Double
     var aperture: Double
     var shutter_speed: shutterSpeed
     var white_balance: whiteBalance

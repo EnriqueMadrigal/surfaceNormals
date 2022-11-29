@@ -31,6 +31,10 @@ class SettingsViewModel: ObservableObject {
     @Published var maxIsoValue: Double
     @Published var Iso: Double
     
+    @Published var minExposureDuration: Double
+    @Published var maxExposureDuration: Double
+    
+    
     var backCamera: AVCaptureDevice?
     var frontCamera: AVCaptureDevice?
     
@@ -68,7 +72,7 @@ class SettingsViewModel: ObservableObject {
             case 3.0: self.white_balanceDesc = whiteBalance.continuosWhiteBalance.description
           
             default:
-                self.shutterDesc = ""
+                self.white_balanceDesc = ""
                 
                 
             }
@@ -91,12 +95,18 @@ class SettingsViewModel: ObservableObject {
         self.aperture = 0.0
         //self.shutter_speed = 0.0
         self.white_balance = 1.0
+        self.white_balanceDesc = whiteBalance.locked.description
         
         self.minIsoValue = 0.0
         self.maxIsoValue = 0.0
         self.Iso = 0.0
         
+        let kExposureMinDuration: Float64 = 1.0 / 1000
+        self.minExposureDuration = Double(kExposureMinDuration)
+        self.maxExposureDuration = 1.0
+        
         self.setupDevices()
+       
        
         
         if let currentCamera = frontCamera {
@@ -104,6 +114,11 @@ class SettingsViewModel: ObservableObject {
             self.maxIsoValue = Double(Esposure.max.value(device: currentCamera))
             self.Iso = self.minIsoValue
        
+            let minDurationSeconds = max(CMTimeGetSeconds(currentCamera.activeFormat.minExposureDuration), kExposureMinDuration)
+            let maxDurationSeconds = CMTimeGetSeconds(currentCamera.activeFormat.maxExposureDuration)
+            
+            self.minExposureDuration = Double(minDurationSeconds)
+            self.maxExposureDuration = Double(maxDurationSeconds)
             
             print(self.minIsoValue)
             print(self.maxIsoValue)
@@ -139,10 +154,11 @@ class SettingsViewModel: ObservableObject {
         
         currentSettings.dot_radius = Int(self.dot_radius)
         currentSettings.photos_number = Int(self.photos_number)
-        currentSettings.photo_interval = Int(self.photo_interval)
+        currentSettings.photo_interval = self.photo_interval
         
         currentSettings.ambient = self.ambient
         currentSettings.iso = Float(self.Iso)
+        currentSettings.desc = self.desc
         Common.shared.currrentSetting = currentSettings
         
     }
