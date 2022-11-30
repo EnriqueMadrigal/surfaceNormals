@@ -159,7 +159,9 @@ class SettingsViewModel: ObservableObject {
         currentSettings.ambient = self.ambient
         currentSettings.iso = Float(self.Iso)
         currentSettings.desc = self.desc
+        currentSettings.formatFile = self.fileformat
         Common.shared.currrentSetting = currentSettings
+        
         
     }
     

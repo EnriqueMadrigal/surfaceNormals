@@ -33,9 +33,10 @@ class CaptureModel: NSObject, ObservableObject {
     
     
     let captureSession = AVCaptureSession()
+    let photoOutput = AVCapturePhotoOutput()
     var backCamera: AVCaptureDevice?
     var frontCamera: AVCaptureDevice?
-    var photoOutput: AVCapturePhotoOutput?
+    
     var currentCamera: AVCaptureDevice?
     //@Published var capturedImage: UIImage?
 
@@ -98,19 +99,36 @@ class CaptureModel: NSObject, ObservableObject {
         do {
             //you only get here if there is a camera ( ! ok )
             let captureDeviceInput = try AVCaptureDeviceInput(device: currentCamera!)
-            captureSession.addInput(captureDeviceInput)
-            photoOutput = AVCapturePhotoOutput()
+            
+            if captureSession.canAddInput(captureDeviceInput) {
+                captureSession.addInput(captureDeviceInput)
+            }
+            else {
+                throw CameraError.cannotAddInput
+            }
+            
+            
+            
+            if captureSession.canAddOutput(photoOutput)
+            {
+                captureSession.addOutput(photoOutput)
+            }
+           else
+            {
+               throw CameraError.cannotAddOutput
+            }
+            
+            
+            /*
             photoOutput?.setPreparedPhotoSettingsArray([AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])], completionHandler: {(success, error) in
                 
                 //print("Image saved")
                 
             })
+            */
+           
+            photoOutput.isAppleProRAWEnabled = photoOutput.isAppleProRAWSupported
             
-            captureSession.addOutput(photoOutput!)
-            
-            if ((photoOutput?.isAppleProRAWSupported) != nil) {
-                //photoOutput?.isAppleProRAWEnabled = true
-            }
             
             captureSession.commitConfiguration()
 
@@ -126,20 +144,19 @@ class CaptureModel: NSObject, ObservableObject {
     
     
     func startRunningCaptureSession() {
+        
+        //let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
+        
         let settings = AVCapturePhotoSettings()
-
         captureSession.startRunning()
-        photoOutput?.capturePhoto(with: settings, delegate: self)
+        photoOutput.capturePhoto(with: settings, delegate: self)
     }//startRunningCaptureSession
 
     
     func startRunningCaptureSessionRAW() {
         
-        if let photoOutput = photoOutput
-        {
+        
             let query = photoOutput.isAppleProRAWEnabled ? {AVCapturePhotoOutput.isAppleProRAWPixelFormat($0)} : {AVCapturePhotoOutput.isBayerRAWPixelFormat($0)}
-            
-            
             
             guard let rawFormat = photoOutput.availableRawPhotoPixelFormatTypes.first(where: query) else {
                 fatalError("No RAW format found.")
@@ -154,7 +171,7 @@ class CaptureModel: NSObject, ObservableObject {
             photoOutput.capturePhoto(with: photoSettings, delegate: self)
             
             
-        }
+     
         
         //let settings = AVCapturePhotoSettings()
 
@@ -169,7 +186,8 @@ class CaptureModel: NSObject, ObservableObject {
     
     func set(exposure: Float, duration: Double) {
       
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        //guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard let device = currentCamera else { return }
       
         // KEEp this for a slider
         /*
@@ -213,7 +231,8 @@ class CaptureModel: NSObject, ObservableObject {
 
         
         
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        //guard let device = AVCaptureDevice.default(for: AVMediaType.video) else { return }
+        guard let device = currentCamera else { return }
         if device.isWhiteBalanceModeSupported(mode) {
             do{
                 try device.lockForConfiguration()
@@ -240,6 +259,9 @@ extension CaptureModel: AVCapturePhotoCaptureDelegate {
     
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
        
+      
+        
+        let currentFormat = Common.shared.currrentSetting.formatFile
         
         /*
         guard let data = photo.fileDataRepresentation(),
@@ -250,15 +272,27 @@ extension CaptureModel: AVCapturePhotoCaptureDelegate {
         }
         */
         
-        if let data = photo.fileDataRepresentation()
-        {
-            //capturedImage = UIImage(data: data)
-            self.rawData = data
+        if currentFormat == fileFormat.RAW {
+       
+            if photo.isRawPhoto {
+                self.rawData = photo.fileDataRepresentation()
+              
+            }
+           
             
         }
         
-        
-      
+       
+        else {
+            if let data = photo.fileDataRepresentation()
+            {
+                //capturedImage = UIImage(data: data)
+                self.rawData = data
+               
+            }
+            
+        }
+     
         
         
         

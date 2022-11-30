@@ -92,7 +92,16 @@ class PatternViewModel: ObservableObject {
         
        // setupSubscriptions()
         self.photoCounter = 0.0
-        self.CameraManager.startRunningCaptureSession()
+        
+        if self.currentFileFormat == fileFormat.RAW
+        {
+            self.CameraManager.startRunningCaptureSessionRAW()
+        }
+        else {
+            self.CameraManager.startRunningCaptureSession()
+        }
+        
+        
         startPatterns()
      
     }
@@ -306,23 +315,27 @@ class PatternViewModel: ObservableObject {
        
         //CameraManager.setWB(wb: Common.shared.currrentSetting.white_balance)
     
-        if self.currentFileFormat != fileFormat.RAW
+          
+            
+        if self.currentFileFormat == fileFormat.RAW
         {
-            
-            
+            self.CameraManager.startRunningCaptureSessionRAW()
+        }
+        else {
             self.CameraManager.startRunningCaptureSession()
-            
+        }
+         
+        
             self.CameraManager.rawData.map { imageData in
                 
-                print ("Image saved")
+               
                
                 
                 var xpos: String = "\(self.curDotX)"
                 var ypos: String = "\(self.curDotY)"
                 
                 
-                print(xpos)
-                print(ypos)
+             
                 
                 if self.randomx == 1000 {
                     xpos = "0"
@@ -333,37 +346,47 @@ class PatternViewModel: ObservableObject {
                 }
                
                 
+                let imageName =  self.description + "_" + xpos + "_" + ypos + "-\(self.curPattern)"
+                
                 if self.currentFileFormat == fileFormat.PNG {
-                    let imageName =  self.description + "-\(self.curPattern)" + "_" + xpos + "_" + ypos + ".png"
                     if let captureImage = UIImage(data: imageData){
-                        
                         DispatchQueue.main.async{
-                            saveLocalImagePNG(image: captureImage, name: imageName)
+                            ImageUtils.shared.saveLocalImagePNG(image: captureImage, name: imageName)
                         }
-                        
-                        
                     }
                 }
                 else if self.currentFileFormat == fileFormat.JPG {
-                    let imageName =  self.description + "_" + xpos + "_" + ypos + "-\(self.curPattern).jpg"
                     if let captureImage = UIImage(data: imageData){
                         DispatchQueue.main.async{
-                            saveLocalImagePNG(image: captureImage, name: imageName)
+                            ImageUtils.shared.saveLocalImageJPG(image: captureImage, name: imageName)
                         }
                     }
                 }
                 
-               
+                else if self.currentFileFormat == fileFormat.RAW {
+                    
+                   var filename = ImageUtils.shared.getImagePath()
+                    
+                        filename = filename.appendingPathComponent(imageName)
+                     
+                    filename = filename.appendingPathExtension("dng")
+                 
+                    do {
+                     
+                       try imageData.write(to: filename)
+                    }
+                    
+                    catch {
+                        fatalError("Couldn't write to DNG File to the URL")
+                    }
+                    
+                }
+                
                 
             }
-        }
         
-        else { //RawFormat
-            
-            
-            
-            
-        }
+        
+        
         
         
         

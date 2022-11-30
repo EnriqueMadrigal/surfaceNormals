@@ -18,7 +18,7 @@ class MainViewModel: ObservableObject {
     
     func deleteFiles(){
         
-        deleteImageFiles()
+        ImageUtils.shared.deleteImageFiles()
     }
     
     

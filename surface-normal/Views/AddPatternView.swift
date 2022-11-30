@@ -16,10 +16,10 @@ struct AddPatternView: View {
        
     private var options1: [String] = [measureAmbient.none.description, measureAmbient.beginning.description, measureAmbient.continuous.description]
      
-    private var options2: [String] = [fileFormat.PNG.description, fileFormat.RAW.description, fileFormat.JPG.description]
+    private var options2: [String] = [fileFormat.RAW.description, fileFormat.PNG.description,fileFormat.JPG.description]
     
      @State private var selectedOption1 = measureAmbient.none.description
-    @State private var selectedOption2 = fileFormat.PNG.description
+    @State private var selectedOption2 = fileFormat.RAW.description
     @State private var selected_value = "0"
     
     @State private var disabledSegment: Bool = false
