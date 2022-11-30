@@ -84,7 +84,7 @@ struct AddPatternView: View {
                             }.padding(.top,20).padding(.leading,20).padding(.trailing,20)
                             
                             VStack {
-                                Slider(value: $settings.photos_number, in: 1...100,step: 1)
+                                Slider(value: $settings.photos_number, in: 1...200,step: 10)
                                 Header3(text: "Number of photos: \(settings.photos_number) Photos")
                             }.padding(.top,0).padding(.leading,20).padding(.trailing,20)
                             
