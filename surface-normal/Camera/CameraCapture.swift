@@ -148,6 +148,7 @@ class CaptureModel: NSObject, ObservableObject {
         //let settings = AVCapturePhotoSettings(format: [AVVideoCodecKey: AVVideoCodecType.jpeg])
         
         let settings = AVCapturePhotoSettings()
+        settings.photoQualityPrioritization = AVCapturePhotoOutput.QualityPrioritization.speed
         captureSession.startRunning()
         photoOutput.capturePhoto(with: settings, delegate: self)
     }//startRunningCaptureSession
