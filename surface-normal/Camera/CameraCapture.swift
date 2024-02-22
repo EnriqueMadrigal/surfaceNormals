@@ -165,7 +165,7 @@ class CaptureModel: NSObject, ObservableObject {
             
             let processedFormat = [AVVideoCodecKey: AVVideoCodecType.hevc]
             let photoSettings = AVCapturePhotoSettings(rawPixelFormatType: rawFormat,processedFormat: processedFormat)
-            
+        photoSettings.photoQualityPrioritization = AVCapturePhotoOutput.QualityPrioritization.speed
            // let delegate = RAWCap
             
             captureSession.startRunning()
